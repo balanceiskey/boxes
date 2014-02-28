@@ -44,24 +44,16 @@ var BoxView = Backbone.View.extend({
 	className: 'box',
 	initialize: function () {
 		_.bindAll(this, 'render');
-
 		this.model.on('change:backgroundColor', this.render);
 	},
 
 	render: function (model) {
 		var name = model.get('name');
-		console.log('render');
 		this.$el.css('backgroundColor', model.get('backgroundColor'));	
-		if (name) {
-			// this.$el.text(name);
-			this.$el.html('<span>' + name + '</span>');
-		}else {
-			this.$el.html('<span>nocolor</span>');
-		}
-
 	}
 });
 
 $(document).ready(function () {
 	var boxView = new BoxView({model: new BoxModel()});
+	$('.boxes').append(boxView.el);
 });
