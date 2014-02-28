@@ -40,28 +40,6 @@ var BoxModel = Backbone.Model.extend({
 	}
 });
 
-var BoxModel2 = BoxModel.extend({
-	url: '/randombox',
-
-	initInterval: function () {
-		var model = this;
-		this.intervalId = setInterval(
-			function () {
-				model.fetch();
-			},
-			this.get('interval')
-		)
-	},
-
-	parse: function (response) {
-		console.log(response);
-		return {
-			backgroundColor: response.color,
-			name: response.name
-		};
-	}
-});
-
 var BoxView = Backbone.View.extend({
 	className: 'box',
 	initialize: function () {
@@ -86,13 +64,4 @@ var BoxView = Backbone.View.extend({
 
 $(document).ready(function () {
 	var boxView = new BoxView({model: new BoxModel()});
-		// boxView2 = new BoxView({model: new BoxModel2()});
-
-	// $('.boxes').append(boxView.el);
-	// $('.boxes').append((new BoxView({model: new BoxModel()})).el);
-	// $('.boxes').append(boxView2.el);
-	// var i = 0;
-	// for (i; i < 10; i++) {
-	// 	$('.boxes').append((new BoxView({model: new BoxModel2()})).el);
-	// }
 });
