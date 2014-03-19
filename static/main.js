@@ -1,3 +1,10 @@
+var colorMap = {
+	0: 'one',
+	1: 'two',
+	2: 'three',
+	3: 'four'
+};
+
 var BoxModel = Backbone.Model.extend({
 	defaults: {
 		backgroundColor: 'blanchedalmond',
@@ -43,17 +50,51 @@ var BoxModel = Backbone.Model.extend({
 var BoxView = Backbone.View.extend({
 	className: 'box',
 	initialize: function () {
-		_.bindAll(this, 'render');
-		this.model.on('change:backgroundColor', this.render);
+		this.model.on('change:backgroundColor', this.render, this);
 	},
 
-	render: function (model) {
-		var name = model.get('name');
-		this.$el.css('backgroundColor', model.get('backgroundColor'));	
+	render: function () {
+		this.$el.css('backgroundColor', this.model.get('backgroundColor'));	
+
+		return this;
+	}
+});
+
+var BoxesView = Backbone.View.extend({
+	el: '.boxes',
+
+	initialize: function () {
+		_.bindAll(this, 'render', 'createBoxView');
+
+		// Auto generate a collection of box models
+		this.collection = this.collection || new Backbone.Collection([
+			new BoxModel({color: colorMap[0]}),
+			new BoxModel({color: colorMap[1]}),
+			new BoxModel({color: colorMap[2]}),
+			new BoxModel({color: colorMap[3]})
+		]);
+	},
+
+	render: function () {
+		// Create and store the box views from the box models
+		this.boxes = this.collection.map(this.createBoxView);
+
+		return this;
+	},
+
+	createBoxView: function (model) {
+		var randDelay = Math.floor((Math.random() * 2000)),
+			// Instantiate and render the box view
+			view = new BoxView({model: model}).render();
+
+		// Append the box view to our boxes container
+		this.$el.append(view.$el);
+
+		return view;
 	}
 });
 
 $(document).ready(function () {
-	var boxView = new BoxView({model: new BoxModel()});
+	var boxView = new BoxesView({}).render();
 	$('.boxes').append(boxView.el);
 });
