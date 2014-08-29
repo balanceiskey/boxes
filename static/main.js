@@ -1,10 +1,3 @@
-var colorMap = {
-	0: 'one',
-	1: 'two',
-	2: 'three',
-	3: 'four'
-};
-
 var BoxModel = Backbone.Model.extend({
 	defaults: {
 		backgroundColor: 'blanchedalmond',
@@ -68,10 +61,10 @@ var BoxesView = Backbone.View.extend({
 
 		// Auto generate a collection of box models
 		this.collection = this.collection || new Backbone.Collection([
-			new BoxModel({color: colorMap[0]}),
-			new BoxModel({color: colorMap[1]}),
-			new BoxModel({color: colorMap[2]}),
-			new BoxModel({color: colorMap[3]})
+			new BoxModel(),
+			new BoxModel(),
+			new BoxModel(),
+			new BoxModel()
 		]);
 	},
 
