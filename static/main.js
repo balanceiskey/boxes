@@ -95,6 +95,5 @@ var BoxesView = Backbone.View.extend({
 });
 
 $(document).ready(function () {
-	var boxView = new BoxesView({}).render();
-	$('.boxes').append(boxView.el);
+	new BoxesView({}).render();
 });
